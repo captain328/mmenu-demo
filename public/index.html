@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="www.frebsite.nl"/>
+    <meta name="viewport" content="width=device-width minimum-scale=1.0 maximum-scale=1.0 user-scalable=no"/>
+
+    <title>mmenu.js demo</title>
+
+    <link type="text/css" rel="stylesheet" href="css/demo.css"/>
+    <link type="text/css" rel="stylesheet" href="./libs/mmenu.css"/>
+
+</head>
+<body>
+<div id="page">
+    <div class="header">
+        <a href="#menu"><span></span></a>
+        Demo
+    </div>
+    <div class="content">
+        <p><strong>This is a demo.</strong><br/>
+            Click the menu icon to open the menu.</p>
+    </div>
+    <nav id="menu">
+    </nav>
+</div>
+
+<!-- mmenu scripts -->
+<script src="./libs/mmenu.polyfills.js"></script>
+<script src="./libs/mmenu.js"></script>
+<script>
+    const menus = [
+        {
+            title: 'HOME',
+            link: '#'
+        },
+        {
+            title: 'TEST-PREP',
+            childs: [
+                {
+                    title: 'K-8',
+                    childs: [
+                        {title: 'SSAT (Middle)', link: '#'},
+                        {title: 'SSAT (Lower)', link: '#'},
+                        {title: 'SSAT (Upper)', link: '#'},
+                        {title: 'ISEE (Lower)', link: '#'},
+                        {title: 'ISEE (Middle)', link: '#'},
+                        {title: 'ISEE (Upper)', link: '#'},
+                        {title: 'OLSAT 8', link: '#'},
+                    ]
+                },
+                {
+                    title: 'High School',
+                    childs: [
+                        {title: 'PSAT', link: '#'},
+                        {title: 'SAT', link: '#'},
+                        {title: 'ACT', link: '#'},
+                        {title: 'GET', link: '#'},
+                    ]
+                },
+                {
+                    title: 'Graduate',
+                    childs: [
+                        {title: 'GRE', link: '#'},
+                        {title: 'GMAT', link: '#'},
+                        {title: 'MCAT', link: '#'},
+                        {title: 'PCAT', link: '#'},
+                        {title: 'DAT', link: '#'},
+                        {title: 'LSAT', link: '#'},
+                    ]
+                },
+                {
+                    title: 'Other',
+                    childs: [
+                        {title: 'TOEFL', link: '#'},
+                        {title: 'IELTS', link: '#'},
+                        {title: 'CLEP', link: '#'},
+                    ]
+                },
+            ]
+        },
+		{
+            title: 'ACADEMIC SUBJECTS',
+            childs: [
+                {
+                    title: 'Prek-5',
+                    childs: [
+                        {title: 'Math', link: '#'},
+                        {title: 'Science', link: '#'},
+                        {title: 'English', link: '#'},
+                        {title: 'Social Studies', link: '#'},
+                        {title: 'Phonics', link: '#'},
+                        {title: 'Special Needs', link: '#'},
+                        {title: 'OLSAT 8', link: '#'},
+                    ]
+                },
+                {
+                    title: 'Math',
+                    childs: [
+                        {title: 'Agebra', link: '#'},
+                        {title: 'Calculus', link: '#'},
+                        {title: 'Differential Equations', link: '#'},
+                    ]
+                },
+            ]
+        },
+		{
+			title: 'OUT TUTORS',
+			link: '#'
+		}
+    ];
+
+    const menuHolder = document.querySelector('#menu');
+
+    const populateMenu = (menuRef, menuData) => {
+    	const newUl = document.createElement('ul');
+    	const menuCount = menuData.length;
+    	for (let i = 0; i < menuCount; i++) {
+    		const newLi = document.createElement('li');
+    		if (menuData[i].childs) {
+    			const newSpan = document.createElement('span');
+    			newSpan.innerText = menuData[i].title;
+    			newLi.appendChild(newSpan);
+    			populateMenu(newLi, menuData[i].childs);
+			} else {
+    			const newA = document.createElement('a');
+				newA.setAttribute('href', menuData[i].link);
+				newA.innerText = menuData[i].title;
+    			newLi.appendChild(newA);
+			}
+    		newUl.appendChild(newLi);
+		}
+		menuRef.appendChild(newUl);
+	};
+
+    populateMenu(menuHolder, menus);
+
+	new Mmenu(document.querySelector('#menu'));
+
+
+    document.addEventListener('click', function (evnt) {
+        var anchor = evnt.target.closest('a[href^="#/"]');
+        if (anchor) {
+            alert('Thank you for clicking, but that\'s a demo link.');
+            evnt.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
